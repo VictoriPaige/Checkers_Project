@@ -1,13 +1,81 @@
-.grid {
-    width: 450px;
-    height: 450px;
-    border: solid #000000 1px;
+#container {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
 }
 
-.grid div {
-    width: 50px;
-    height: 50px;
-    border: solid #00d9ff 1px;
+#board {
+    display: flex;
+    flex-direction: column-reverse;
+    border: 1px solid hsl(0, 0%, 75%);
+}
+
+#board .row {
+    display: flex;
+    /* width: 100%; */
+    margin: 0;
+}
+
+#board .row div {
+    --size: 10vmin;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: var(--size);
+    height: var(--size);
+    color: white;
+    font-family: Calibri;
+    /* border: 1px solid red; */
+}
+
+#board .row div::before {
+    content: attr(data-tile-num);
+    display: block;
+}
+
+#board .row:nth-of-type(even) div:nth-of-type(even),
+#board .row:nth-of-type(odd) div:nth-of-type(odd) {
+    background-color: black;
+}
+
+#board .row:nth-of-type(odd) div:nth-of-type(even),
+#board .row:nth-of-type(even) div:nth-of-type(odd) {
+    background-color: white;
+}
+
+.mypiece::after {
+    --padding: 5px;
+    content: '';
+    position: absolute;
+    display: block;
+    top: var(--padding);
+    left: var(--padding);
+    right: var(--padding);
+    bottom: var(--padding);
+    /* width: 100%; */
+    /* height: 100%; */
+    background-color: rgba(255, 51, 160, 0.95);
+    /* border: 2px solid blue; */
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+.opppiece::after {
+    --padding: 5px;
+    content: '';
+    position: absolute;
+    display: block;
+    top: var(--padding);
+    left: var(--padding);
+    right: var(--padding);
+    bottom: var(--padding);
+    /* width: 100%; */
+    /* height: 100%; */
+    background-color: rgba(182, 251, 129, 0.95);
+    /* border: 2px solid blue; */
+    border-radius: 50%;
+    box-sizing: border-box;
 }
