@@ -46,36 +46,47 @@
     background-color: white;
 }
 
-.mypiece::after {
-    --padding: 5px;
-    content: '';
-    position: absolute;
-    display: block;
-    top: var(--padding);
-    left: var(--padding);
-    right: var(--padding);
-    bottom: var(--padding);
-    /* width: 100%; */
-    /* height: 100%; */
-    background-color: rgba(255, 51, 160, 0.95);
-    /* border: 2px solid blue; */
-    border-radius: 50%;
-    box-sizing: border-box;
+.piece {
+    cursor: pointer;
 }
 
-.opppiece::after {
+@keyframes blink {
+    0% {
+        filter: brightness(100%)
+    }
+    50% {
+        filter: brightness(75%)
+    }
+    100% {
+        filter: brightness(100%)
+    }
+}
+
+.piece::after {
     --padding: 5px;
-    content: '';
+    content: attr(id);
     position: absolute;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: var(--padding);
     left: var(--padding);
     right: var(--padding);
     bottom: var(--padding);
     /* width: 100%; */
     /* height: 100%; */
-    background-color: rgba(182, 251, 129, 0.95);
+    background-color: hsl(305, 100%, 60%);
     /* border: 2px solid blue; */
     border-radius: 50%;
     box-sizing: border-box;
+    opacity: .95;
+}
+
+.piece.opps::after {
+    background-color: rgb(0, 247, 255);
+}
+
+.piece.selected::after {
+    outline: 2px solid lime;
+    animation: blink 1s infinite;
 }
