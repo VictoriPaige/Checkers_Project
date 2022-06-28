@@ -1,10 +1,13 @@
 const board = document.querySelector("#board");
 const size = 8;
+let destCoords = '';
+let moveCoords = '';
+//const player = prompt("Input Player Name!");;
 
 function createBoard() {
     for (let x = 0; x < size; x++) {
         let row = document.createElement("div");
-        row.classList.add("row");
+        row.classList.add("row", `row-${x}`);
         for (let y = 0; y < size; y++) {
             let tile = document.createElement("div");
             tile.classList.add("tile");
@@ -59,6 +62,7 @@ function selectSpace() {
     let occupied = this.classList.contains("piece");
     let isOpp = this.classList.contains("opps");
 
+
     if (occupied && !isOpp) {
         document
             .querySelectorAll(".piece")
@@ -66,11 +70,14 @@ function selectSpace() {
         this.classList.add("selected");
     } else {
         let movingPiece = document.querySelector(".selected");
+        // movingPiece.x =
+        //     movingPiece.y =
         if (movingPiece != null) {
             //check if king
             if (inRange(movingPiece, this) && !occupied) {
                 console.log("Space is available to move!");
                 console.log(movingPiece.id);
+                // console.log(movingPiece
                 movePiece(movingPiece, this);
             }
         } else {
@@ -102,11 +109,13 @@ function inRange(mover, destination) {
     const moverY = parseInt(moverCoord[1]);
     const destX = parseInt(destCoord[0]);
     const destY = parseInt(destCoord[1]);
+    destCoords = `${destX}, ${destY}`; //maybe save in an array that opponent can read to know not to jump?
+    moveCoords = `${moverX}, ${moverY}`
 
     const forward = destX == moverX + 1;
-    const diagonalLeft = destY == moverY - 1;
-    const diagonalRight = destY == moverY + 1;
-    const diagonal = diagonalLeft || diagonalRight;
+    const diagonalLeft = destY == moverY - 1; //add style for possible moves
+    const diagonalRight = destY == moverY + 1; //add second event listener for adding style on possible moves
+    const diagonal = diagonalLeft || diagonalRight; //add style for possible moves
 
     let hasOpp;
     let adjacentTile;
@@ -134,31 +143,55 @@ function inRange(mover, destination) {
         hasOpp = adjacentTile.classList.contains("opps");
     }
 
-    console.log({ hasOpp });
+    console.log({ hasOpp }); //prints if opponent is in diagonal space (WHEN SELECTED)...add to "on click"
     console.log({ adjacentTile });
-
-    // console.log({ moverX }, { moverY }, { destX }, { destY });
+    console.log(destCoords);
+    console.log({ moverX }, { moverY }, { destX }, { destY });
     return forward && diagonal;
+
 
     // console.log({ moverX }, { moverY }, { destX }, { destY });
 }
 
 function canAttack() {}
 
-function forceMove(targetID, destCoord) {
-    const target = document.getElementById(targetID);
-    let destination;
+// function forceMove(targetID, destCoord) {
+//     const target = document.getElementById(targetID);
+//     let destination;
+
+//     document.querySelectorAll(".tile").forEach((tile) => {
+//         if (tile.getAttribute("data-tile-num") === destCoord) {
+//             destination = tile;
+//         }
+//     });
+
+//     movePiece(target, destination); //
+// }
+
+
+function whyGod(targetID, destCoord) {
+    let arr = document.querySelectorAll('.opps');
+    let random = Math.floor(Math.random() * arr.length);
+    //console.log(arr[random]);
+    const target = arr[random];
+    console.log(target);
+    let data;
 
     document.querySelectorAll(".tile").forEach((tile) => {
-        if (tile.getAttribute("data-tile-num") === destCoord) {
-            destination = tile;
+        if (tile.getAttribute("data-tile-num").getAttribute("data-tile-num").split(", ") === destCoord) {
+            data = tile;
         }
+        const destX = parseInt(destCoord[0]);
+        const destY = parseInt(destCoord[1]);
+        destCoords = `${destX}, ${destY}`;
     });
+    // let destination = ;
+    //movePiece(target, destination); //
 
-    movePiece(target, destination);
 }
 
 createBoard();
 setPieces();
 setPieces(false);
-forceMove("T11", "3, 5");
+//forceMove("T11", "3, 3");
+whyGod();
